@@ -1,2 +1,7 @@
 h1= @question.title
 p= @question.body
+
+table
+  - @question.answers.each do |answer|
+    tr
+      td= answer.body
