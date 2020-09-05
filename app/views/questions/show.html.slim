@@ -1,3 +1,5 @@
+=render 'shared/errors', resource: @answer
+
 h1= @question.title
 p= @question.body
 
@@ -5,3 +7,8 @@ table
   - @question.answers.each do |answer|
     tr
       td= answer.body
+
+= form_with model: [@question, @answer], local: true do |f|
+  = f.label :body
+  = f.text_area :body
+  = f.submit 'Answer'
