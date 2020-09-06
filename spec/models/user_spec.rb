@@ -1,6 +1,25 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  it { should validate_presence_of :email }
-  it { should validate_presence_of :password }
+  it { should have_many(:answers).dependent(:destroy) }
+  it { should have_many(:questions).dependent(:destroy) }
+
+  describe 'author of the answer' do
+    let(:user) { create(:user) }
+    let(:user_2) { create(:user) }
+    let(:question) { create(:question, user: user) }
+    let(:answer) { create(:answer, question: question, user: user) }
+
+    context 'valid' do
+      it 'compares user and author' do
+        expect(user).to be_author_of(question)
+      end
+    end
+
+    context 'invalid' do
+      it 'compares user and author' do
+        expect(user_2).to_not be_author_of(question)
+      end
+    end
+  end
 end
