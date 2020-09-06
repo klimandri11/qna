@@ -9,8 +9,8 @@ feature 'User can browse the question and its answers', %q{
   given!(:question) { create(:question, user: user) }
   given!(:answers) { create_list(:answer, 4, question: question, user: user) }
 
-  scenario 'User tries browse the question and its answers' do
-    visit questions_path(question)
+  scenario 'User tries to view the question and answers to it' do
+    visit question_path(question)
 
     expect(page).to have_content question.title
     expect(page).to have_content question.body

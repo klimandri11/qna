@@ -3,10 +3,15 @@
 h1= @question.title
 p= @question.body
 
-table
-  - @question.answers.each do |answer|
-    tr
-      td= answer.body
+- if current_user&.author_of?(@question)
+  p= link_to 'Delete question', question_path(@question), method: :delete
+
+section
+    -@question.answers.each do |answer|
+      -if answer.persisted?
+          = answer.body
+          -if current_user&.author_of?(@question)
+            = link_to 'Delete answer', question_path(@question), method: :delete
 
 = form_with model: [@question, @answer], local: true do |f|
   = f.label :body

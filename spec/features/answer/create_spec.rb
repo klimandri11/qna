@@ -25,7 +25,6 @@ feature 'User can create answer the question', %q{
     end
 
     scenario 'create a answer with errors' do
-      fill_in 'Body', with: nil
       click_on 'Answer'
       expect(page).to have_content "Body can't be blank"
     end
