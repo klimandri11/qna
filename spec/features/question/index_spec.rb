@@ -7,7 +7,7 @@ feature 'User can browse questions', %q{
 } do
 
   given(:user) { create(:user) }
-  given!(:questions) { create_list(:question, 3) }
+  given!(:questions) { create_list(:question, 3, user: user) }
 
   scenario 'authenticated can browse questions' do
     sign_in(user)

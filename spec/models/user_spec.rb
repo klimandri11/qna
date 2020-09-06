@@ -4,11 +4,10 @@ RSpec.describe User, type: :model do
   it { should have_many(:answers).dependent(:destroy) }
   it { should have_many(:questions).dependent(:destroy) }
 
-  describe 'author of the answer' do
+  describe 'author of the question' do
     let(:user) { create(:user) }
     let(:user_2) { create(:user) }
     let(:question) { create(:question, user: user) }
-    let(:answer) { create(:answer, question: question, user: user) }
 
     context 'valid' do
       it 'compares user and author' do
