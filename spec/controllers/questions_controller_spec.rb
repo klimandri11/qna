@@ -24,11 +24,12 @@ RSpec.describe QuestionsController, type: :controller do
     let!(:answer) { create(:answer, question: question, user: user) }
 
     it 'the answer is associated with the question' do
-      expect(assigns(:question)).to eq answer.question
+      expect(assigns(:question)).to eq question
     end
 
     it 'assigns a new Answer' do
       expect(assigns(:answer)).to be_a_new(Answer)
+      expect(assigns(:question)).to eq answer.question
     end
 
     it 'renders show view' do
@@ -38,8 +39,10 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'GET #new' do
     context 'Authenticated user' do
-      before { login(user) }
-      before { get :new }
+      before do
+        login(user)
+        get :new
+      end
 
       it 'assigns a new Question to @question' do
         expect(assigns(:question)).to be_a_new(Question)
@@ -112,6 +115,10 @@ RSpec.describe QuestionsController, type: :controller do
     context 'Unauthenticated user' do
       it 'try to save the question in the database' do
         expect { post :create, params: { question: attributes_for(:question) } }.to_not change(Question, :count)
+      end
+
+      it 'redirect to new user' do
+        post :create, params: { question: attributes_for(:question) }
         expect(response).to redirect_to new_user_session_path
       end
     end
@@ -177,6 +184,10 @@ RSpec.describe QuestionsController, type: :controller do
         before { login(user) }
 
         it 'delete the question' do
+          expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+        end
+
+        it 'delete the question by user' do
           expect { delete :destroy, params: { id: question } }.to change(user.questions, :count).by(-1)
         end
 

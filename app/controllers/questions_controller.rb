@@ -37,10 +37,11 @@ class QuestionsController < ApplicationController
   def destroy
     if current_user.author_of?(@question)
       @question.destroy
-      redirect_to questions_path, notice: "Question was destroyed"
+      flash[:notice] = "Question was destroyed"
     else
-      redirect_to questions_path, alert: "You can't destroy question"
+      flash[:alert] = "You can't destroy question"
     end
+    redirect_to questions_path
   end
 
   private

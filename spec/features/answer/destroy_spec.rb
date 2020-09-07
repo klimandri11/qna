@@ -20,7 +20,7 @@ feature 'User can delete answer', %q{
       visit question_path(question)
       click_on 'Delete answer'
 
-      expect(page).to_not have_content "Answer was destroyed"
+      expect(page).to have_content "Answer was destroyed"
       expect(page).to_not have_content answer.body
     end
 

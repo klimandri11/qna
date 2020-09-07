@@ -10,6 +10,10 @@ RSpec.describe AnswersController, type: :controller do
       before { login(user) }
 
       context 'with valid attributes' do
+        it 'saves a new answer in the database' do
+          expect { post :create, params: { answer: attributes_for(:answer), question_id: question } }.to change(question.answers, :count).by(1)
+        end
+
         it 'saves a new answer in the database by user' do
           expect { post :create, params: { answer: attributes_for(:answer), question_id: question } }.to change(user.answers, :count).by(1)
         end
@@ -22,7 +26,7 @@ RSpec.describe AnswersController, type: :controller do
 
       context 'with invalid attributes' do
         it 'does not save the answer' do
-          expect { post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question } }.to_not change(question.answers, :count)
+          expect { post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question } }.to_not change(Answer, :count)
         end
 
         it 're-renders new view' do
@@ -47,6 +51,10 @@ RSpec.describe AnswersController, type: :controller do
         before { login(user) }
 
         it 'try to delete their answer' do
+          expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
+        end
+
+        it 'try to delete their answer by user' do
           expect { delete :destroy, params: { id: answer } }.to change(user.answers, :count).by(-1)
         end
 

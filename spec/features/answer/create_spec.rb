@@ -21,7 +21,7 @@ feature 'User can create answer the question', %q{
       click_on 'Answer'
 
       expect(page).to have_content 'Your answer successfully created.'
-      expect(page).to have_content 'text'
+      within('.answer_body') { expect(page).to have_content 'text' }
     end
 
     scenario 'create a answer with errors' do
@@ -35,6 +35,7 @@ feature 'User can create answer the question', %q{
     click_on 'Answer'
 
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to have_content 'Log in'
   end
 
 

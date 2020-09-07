@@ -1,7 +1,7 @@
 =render 'shared/errors', resource: @answer
 
-h1= @question.title
-p= @question.body
+h1 class='question-title'= @question.title
+p class='question-body'= @question.body
 
 - if current_user&.author_of?(@question)
   p= link_to 'Delete question', question_path(@question), method: :delete
@@ -9,9 +9,10 @@ p= @question.body
 section
     -@question.answers.each do |answer|
       -if answer.persisted?
+        li class = 'answer_body'
           = answer.body
-          -if current_user&.author_of?(@question)
-            = link_to 'Delete answer', question_path(@question), method: :delete
+          -if current_user&.author_of?(answer)
+            = link_to 'Delete answer', answer_path(answer), method: :delete
 
 = form_with model: [@question, @answer], local: true do |f|
   = f.label :body
