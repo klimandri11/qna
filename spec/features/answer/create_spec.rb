@@ -35,7 +35,7 @@ feature 'User can create answer the question', %q{
     click_on 'Answer'
 
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
-    expect(page).to have_content 'Log in'
+    expect(current_path).to eq new_user_session_path
   end
 
 
