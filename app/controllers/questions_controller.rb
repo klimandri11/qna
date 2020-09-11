@@ -1,13 +1,13 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, except: %w[index show]
-  before_action :find_question, only: %w[show edit update destroy]
+  before_action :authenticate_user!, except: %i[index show]
+  before_action :find_question, only: %i[show edit update destroy]
 
   def index
     @questions = Question.all
   end
 
   def show
-    @answer = @question.answers.new
+    @answer = Answer.new
   end
 
   def new

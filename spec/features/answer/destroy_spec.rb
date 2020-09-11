@@ -13,7 +13,7 @@ feature 'User can delete answer', %q{
   given(:user_2) { create(:user) }
   given!(:question_2) { create(:question, user: user_2) }
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js: true do
     background { sign_in(user) }
 
     scenario 'is try to delete their answer' do
@@ -31,7 +31,7 @@ feature 'User can delete answer', %q{
     end
   end
 
-  describe 'Unauthenticated user' do
+  describe 'Unauthenticated user', js: true do
     scenario "is try to delete someone answer" do
       visit question_path(question)
       expect(page).to_not have_content 'Delete answer'

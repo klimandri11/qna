@@ -1,17 +1,10 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_question, only: %w[create]
-  before_action :find_answer, only: %w[destroy]
+  before_action :find_question, only: %i[create]
+  before_action :find_answer, only: %i[destroy update]
 
   def create
-    @answer = @question.answers.new(answer_params)
-    @answer.user = current_user
-
-    if @answer.save
-      redirect_to @answer.question, notice: "Your answer successfully created."
-    else
-      render 'questions/show'
-    end
+    @answer = @question.answers.create(answer_params.merge(user: current_user))
   end
 
   def destroy
@@ -22,6 +15,13 @@ class AnswersController < ApplicationController
       flash[:alert] = "You can't destroy answer"
     end
     redirect_to question_path(@answer.question)
+  end
+
+  def update
+    if current_user.author_of?(@answer)
+      @answer.update(answer_params)
+      @question = @answer.question
+    end
   end
 
   private
