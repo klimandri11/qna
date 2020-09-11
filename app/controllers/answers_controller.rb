@@ -10,17 +10,18 @@ class AnswersController < ApplicationController
   def destroy
     if current_user.author_of?(@answer)
       @answer.destroy
-      flash[:notice] = "Answer was destroyed"
+      @question = @answer.question
     else
       flash[:alert] = "You can't destroy answer"
     end
-    redirect_to question_path(@answer.question)
   end
 
   def update
     if current_user.author_of?(@answer)
       @answer.update(answer_params)
       @question = @answer.question
+    else
+      flash[:alert] = "You can't update answer"
     end
   end
 

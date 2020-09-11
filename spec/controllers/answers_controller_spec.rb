@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
+  let(:user_2) { create(:user) }
   let(:question) { create(:question, user: user) }
   let(:answer) { create(:answer, question: question, user: user) }
 
@@ -54,9 +55,9 @@ RSpec.describe AnswersController, type: :controller do
           expect { delete :destroy, params: { id: answer }, format: :js }.to change(Answer, :count).by(-1)
         end
 
-        it 'redirect' do
+        it 'render destroy template' do
           delete :destroy, params: { id: answer }, format: :js
-          expect(response).to redirect_to question_path(question)
+          expect(response).to render_template :destroy
         end
       end
 
@@ -67,9 +68,9 @@ RSpec.describe AnswersController, type: :controller do
           expect { delete :destroy, params: { id: answer }, format: :js }.to_not change(Answer, :count)
         end
 
-        it 'redirect' do
+        it 'render destroy template' do
           delete :destroy, params: { id: answer }, format: :js
-          expect(response).to redirect_to question_path(question)
+          expect(response).to render_template :destroy
         end
       end
     end
@@ -115,8 +116,17 @@ RSpec.describe AnswersController, type: :controller do
           end
         end
       end
-    end
 
+      context 'Not author' do
+        before { login(user_2) }
+
+        it 'does not update answer' do
+          patch :update, params: { id: answer, answer: attributes_for(:answer) }, format: :js
+          answer.reload
+          expect(answer.body).to eq answer.body
+        end
+      end
+    end
     context 'Unauthenticated user' do
       it 'try to update the answer' do
         expect { patch :update, params: { id: answer, answer: { body: 'new body' } } }.not_to change(Answer, :count)

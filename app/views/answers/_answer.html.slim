@@ -8,4 +8,4 @@ p class="answer-body"= answer.body
     = f.text_area :body
     = f.submit 'Save'
 
-  p= link_to 'Delete answer', answer, method: :delete
+  p= link_to 'Delete answer', answer, class: 'destroy-answer', remote: true, method: :delete

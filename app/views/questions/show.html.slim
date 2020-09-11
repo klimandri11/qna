@@ -1,8 +1,8 @@
-h1 class='question-title'= @question.title
-p class='question-body'= @question.body
+.question
+  = render @question
 
-- if current_user&.author_of?(@question)
-  p= link_to 'Delete question', question_path(@question), method: :delete
+.question-errors
+  = render 'shared/errors', resource: @question
 
 .answers
   = render @question.answers

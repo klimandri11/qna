@@ -1,0 +1,4 @@
+<% if @answer.destroyed? %>
+  $(this).remove();
+  $('.answers').html('<%= j render @question.answers %>');
+<% end %>
