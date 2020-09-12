@@ -1,6 +1,6 @@
 div id="answer-#{answer.id}"
   - if answer.best == true
-    p style = "color: green" class="answer-body"= answer.body
+    p class="answer-best"= answer.body
   - else
     p class="answer-body"= answer.body
 

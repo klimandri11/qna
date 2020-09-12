@@ -24,6 +24,15 @@ feature 'User can choose best answer', %q{
         expect(page).to have_link('Best', count: 9)
       end
 
+      scenario "sees the best answer first", js: true do
+        best_answer = answers.last
+        within("#answer-#{best_answer.id}") { click_on 'Best' }
+
+        within ".answer-best" do
+          expect(page).to have_content(best_answer.body)
+        end
+      end
+
       scenario 'one best answer', js: true do
         within("#answer-#{answers.first.id}") { click_on 'Best' }
         within("#answer-#{answers.last.id}") { click_on 'Best' }
