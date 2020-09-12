@@ -127,10 +127,60 @@ RSpec.describe AnswersController, type: :controller do
         end
       end
     end
+
     context 'Unauthenticated user' do
       it 'try to update the answer' do
         expect { patch :update, params: { id: answer, answer: { body: 'new body' } } }.not_to change(Answer, :count)
         expect(response).to redirect_to new_user_session_path
+      end
+    end
+  end
+
+  describe 'PATCH #choose_best' do
+    let!(:question) { create(:question, user: user) }
+    let!(:answer) { create(:answer, question: question, user: user) }
+
+    context 'Authenticated user' do
+      context 'Author' do
+        before { login(user) }
+
+        it 'the answer best is true' do
+          patch :choose_best, params: { id: answer }, format: :js
+          answer.reload
+
+          expect(answer.best).to eq true
+        end
+
+        it 'render choose_best template' do
+          patch :choose_best, params: { id: answer }, format: :js
+
+          expect(response).to render_template :choose_best
+        end
+      end
+
+      context 'Not author' do
+        before { login(user_2) }
+
+        it 'the answer best is false' do
+          patch :choose_best, params: { id: answer }, format: :js
+          answer.reload
+
+          expect(answer.best).to eq false
+        end
+
+        it 'render choose_best template' do
+          patch :choose_best, params: { id: answer }, format: :js
+
+          expect(response).to render_template :choose_best
+        end
+      end
+    end
+
+    context 'Unauthenticated user' do
+      it 'does not change answer' do
+        patch :choose_best  , params: { id: answer, answer: { best: true }, format: :js }
+        answer.reload
+        expect(answer.best).to_not eq true
       end
     end
   end

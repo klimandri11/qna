@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :find_question, only: %i[create]
-  before_action :find_answer, only: %i[destroy update]
+  before_action :find_answer, only: %i[destroy update choose_best]
 
   def create
     @answer = @question.answers.create(answer_params.merge(user: current_user))
@@ -22,6 +22,15 @@ class AnswersController < ApplicationController
       @question = @answer.question
     else
       flash[:alert] = "You can't update answer"
+    end
+  end
+
+  def choose_best
+    if current_user.author_of?(@answer.question)
+      @answer.choose_best
+      @question = @answer.question 
+    else
+      flash[:alert] = "You can't choose best answer"
     end
   end
 
