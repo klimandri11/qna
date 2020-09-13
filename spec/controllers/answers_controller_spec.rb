@@ -125,6 +125,11 @@ RSpec.describe AnswersController, type: :controller do
           answer.reload
           expect(answer.body).to eq answer.body
         end
+
+        it 'http status forbidden' do
+          patch :update, params: { id: answer, answer: attributes_for(:answer) }, format: :js
+          expect(response).to have_http_status(:forbidden)
+        end
       end
     end
 
