@@ -68,9 +68,9 @@ RSpec.describe AnswersController, type: :controller do
           expect { delete :destroy, params: { id: answer }, format: :js }.to_not change(Answer, :count)
         end
 
-        it 'render destroy template' do
+        it 'http status forbidden' do
           delete :destroy, params: { id: answer }, format: :js
-          expect(response).to render_template :destroy
+          expect(response).to have_http_status(:forbidden)
         end
       end
     end
@@ -168,10 +168,10 @@ RSpec.describe AnswersController, type: :controller do
           expect(answer.best).to eq false
         end
 
-        it 'render choose_best template' do
+        it 'http status forbidden' do
           patch :choose_best, params: { id: answer }, format: :js
 
-          expect(response).to render_template :choose_best
+          expect(response).to have_http_status(:forbidden)
         end
       end
     end

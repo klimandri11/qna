@@ -16,7 +16,7 @@ RSpec.describe Answer, type: :model do
       answer.choose_best
 
       expect(question.answers.where(best: true).count).to eq 1
-      expect(question.answers.find_by(id: answer)).to eq true
+      expect(question.answers.find_by(id: answer).best).to eq true
     end
   end
 end

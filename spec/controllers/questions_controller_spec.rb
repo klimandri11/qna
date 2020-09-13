@@ -147,9 +147,9 @@ RSpec.describe QuestionsController, type: :controller do
       context 'Not author' do
         before { login(user_2) }
 
-        it 'render update template' do
+        it 'http status forbidden' do
           patch :update, params: { id: question,  question: attributes_for(:question) }, format: :js
-          expect(response).to render_template :update
+          expect(response).to have_http_status(:forbidden)
         end
       end
     end
@@ -189,9 +189,9 @@ RSpec.describe QuestionsController, type: :controller do
           expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
         end
 
-        it 'redirects to index' do
+        it 'http status forbidden' do
           delete :destroy, params: { id: question }
-          expect(response).to redirect_to questions_path
+          expect(response).to have_http_status(:forbidden)
         end
       end
     end
