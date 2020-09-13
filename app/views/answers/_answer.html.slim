@@ -1,8 +1,8 @@
 div id="answer-#{answer.id}"
   - if answer.best == true
-    p class="answer-best"= answer.body
+    li class="answer-best"= answer.body
   - else
-    p class="answer-body"= answer.body
+    li class="answer-body"= answer.body
 
 
   - if current_user&.author_of?(answer)

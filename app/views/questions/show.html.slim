@@ -4,11 +4,12 @@
 .question-errors
   = render 'shared/errors', resource: @question
 
-.answers
-  = render @question.answers
+ul class = 'answers'
+  = render @question.answers.best_answer
 
 .answer-errors
   = render 'shared/errors', resource: @answer
+
 - if user_signed_in?
   = form_with model: [@question, @answer], class: 'new-answer' do |f|
     = f.label :body

@@ -12,7 +12,7 @@ class AnswersController < ApplicationController
       @answer.destroy
       @question = @answer.question
     else
-      flash[:alert] = "You can't destroy answer"
+      head :forbidden
     end
   end
 
@@ -21,16 +21,16 @@ class AnswersController < ApplicationController
       @answer.update(answer_params)
       @question = @answer.question
     else
-      flash[:alert] = "You can't update answer"
+      head :forbidden
     end
   end
 
   def choose_best
     if current_user.author_of?(@answer.question)
       @answer.choose_best
-      @question = @answer.question 
+      @question = @answer.question
     else
-      flash[:alert] = "You can't choose best answer"
+      head :forbidden
     end
   end
 

@@ -30,18 +30,17 @@ class QuestionsController < ApplicationController
     if current_user.author_of?(@question)
       @question.update(question_params)
     else
-      flash[:alert] = "You can't update question" 
+      head :forbidden
     end
   end
 
   def destroy
     if current_user.author_of?(@question)
       @question.destroy
-      flash[:notice] = "Question was destroyed"
+      redirect_to questions_path, notice: "Question was destroyed"
     else
-      flash[:alert] = "You can't destroy question"
+      head :forbidden
     end
-    redirect_to questions_path
   end
 
   private
