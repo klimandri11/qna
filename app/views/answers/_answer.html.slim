@@ -15,5 +15,5 @@ div id="answer-#{answer.id}"
 
     p= link_to 'Delete answer', answer, class: 'destroy-answer', remote: true, method: :delete
 
-  - if current_user&.author_of?(answer.question) && answer.best != true
+  - if current_user&.author_of?(answer.question) && !answer.best?
     p= link_to 'Best', choose_best_answer_path(answer), data: { answer_id: answer.id }, class: "best-answer-link", method: :patch, remote: true
