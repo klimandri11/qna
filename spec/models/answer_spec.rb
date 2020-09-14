@@ -9,14 +9,19 @@ RSpec.describe Answer, type: :model do
   describe 'choose_best' do
     let!(:user) { create(:user) }
     let!(:question) { create(:question, user: user) }
-    let!(:answer) { create(:answer, question: question, user: user) }
+    let!(:answer) { create(:answer, question: question, user: user, best: true) }
+    let!(:answer_2) { create(:answer, question: question, user: user) }
 
     it 'set true for a best answer' do
-      create_list(:answer, 4, question: question, user: user)
-      answer.choose_best
+      answer_2.choose_best
+
+      expect(answer_2).to be_best
+    end
+
+    it 'one best answer' do
+      answer_2.choose_best
 
       expect(question.answers.where(best: true).count).to eq 1
-      expect(question.answers.find_by(id: answer).best).to eq true
     end
   end
 end

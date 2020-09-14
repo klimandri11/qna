@@ -153,7 +153,7 @@ RSpec.describe AnswersController, type: :controller do
           patch :choose_best, params: { id: answer }, format: :js
           answer.reload
 
-          expect(answer.best).to eq true
+          expect(answer).to be_best
         end
 
         it 'render choose_best template' do
@@ -170,7 +170,7 @@ RSpec.describe AnswersController, type: :controller do
           patch :choose_best, params: { id: answer }, format: :js
           answer.reload
 
-          expect(answer.best).to eq false
+          expect(answer).to_not be_best
         end
 
         it 'http status forbidden' do
@@ -185,7 +185,7 @@ RSpec.describe AnswersController, type: :controller do
       it 'does not change answer' do
         patch :choose_best  , params: { id: answer, answer: { best: true }, format: :js }
         answer.reload
-        expect(answer.best).to_not eq true
+        expect(answer).to_not be_best
       end
     end
   end
