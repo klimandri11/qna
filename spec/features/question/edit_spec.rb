@@ -70,10 +70,10 @@ feature 'User can edit his question', %q{
 
         visit question_path(question)
       end
-      
+
       scenario "try to edit other user's question" do
 
-        expect(page).to_not have_button 'Edit'
+        expect(page).to_not have_link 'Edit'
       end
     end
   end
