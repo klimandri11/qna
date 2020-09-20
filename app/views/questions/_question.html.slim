@@ -1,6 +1,13 @@
 h2 class='question-title'= @question.title
 p class='question-body'= @question.body
 
+- if @question.links.presence
+  .question_links
+    p Links:
+    ul
+      - @question.links.each do |link|
+        li= link_to link.name, link.url
+
 - if current_user&.author_of?(@question)
   - if @question.files.attached?
     - @question.files.each do |file|
