@@ -18,14 +18,6 @@ ul class = 'answers'
     p
       = f.label :files
       = f.file_field :files, multiple: true
-    p Links:
-    p
-      = f.fields_for :links do |l|
-        p
-          = l.label :name, 'Link name'
-          = l.text_field :name
-        p
-          = l.label :url
-          = l.text_field :url
+    p = render 'form_link', f: f
 
     p= f.submit 'Answer'

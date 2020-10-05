@@ -2,11 +2,18 @@ h2 class='question-title'= @question.title
 p class='question-body'= @question.body
 
 - if @question.links.presence
-  .question_links
+  .links
     p Links:
     ul
       - @question.links.each do |link|
-        li= link_to link.name, link.url
+        li id="link-#{link.id}"
+          - if link.gist?
+            = link.name
+            script src="#{link.url}.js"
+          -else
+            = link_to link.name, link.url
+          - if current_user&.author_of?(@question)
+            p= link_to 'Delete link', link, method: 'delete', remote: true
 
 - if current_user&.author_of?(@question)
   - if @question.files.attached?
@@ -25,6 +32,8 @@ p class='question-body'= @question.body
     p
       = f.label :files
       = f.file_field :files, multiple: true
+    p class="new-link"
+      = render 'form_link', f: f
     p= f.submit 'Save'
 
   p= link_to 'Delete question', question_path(@question), method: :delete

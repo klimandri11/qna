@@ -9,6 +9,7 @@ require("@rails/activestorage").start()
 require("channels")
 
 require("jquery")
+require("@nathanvda/cocoon")
 require("channels/answers")
 require("channels/questions")
 

@@ -1,0 +1,3 @@
+<% if @link.destroyed? %>
+  $('#link-' + <%= @link.id %>).remove();
+<% end %>
