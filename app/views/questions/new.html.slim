@@ -12,4 +12,13 @@
     = f.file_field :files, multiple: true
   p =render 'form_link', f: f
 
+  p Badge:
+  = f.fields_for :badge do |b|
+    p
+      = b.label :name, 'Badge name'
+      = b.text_field :name
+    p
+      = b.label :image
+      = b.file_field :image
+
   p= f.submit 'Ask'

@@ -14,6 +14,7 @@ RSpec.describe Answer, type: :model do
     let!(:question) { create(:question, user: user) }
     let!(:answer) { create(:answer, question: question, user: user, best: true) }
     let!(:answer_2) { create(:answer, question: question, user: user) }
+    let!(:badge) { create(:badge, question: question) }
 
     it 'set true for a best answer' do
       answer_2.choose_best
@@ -25,6 +26,11 @@ RSpec.describe Answer, type: :model do
       answer_2.choose_best
 
       expect(question.answers.where(best: true).count).to eq 1
+    end
+
+    it 'adds badge to user' do
+      answer_2.choose_best
+      expect(question.badge.user).to eq user
     end
   end
 
