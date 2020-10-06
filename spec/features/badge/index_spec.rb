@@ -7,20 +7,22 @@ feature 'User can show badges', %q{
 
   given(:user) { create :user }
   given(:question) { create :question, user: user }
-  given!(:badge) { create :badge, question: question, user: user}
 
-  scenario 'User can browse badges', js: true do
+  scenario 'Authenticated user tries to browse badges', js: true do
     sign_in(user)
-    visit question_path(question)
-
-    fill_in 'Body', with: 'text text text'
-    click_on 'Answer'
-    click_on 'Best'
-
+    badges = create_list(:badge, 4, user: user, question: question)
     visit badges_path
 
-    expect(page).to have_content question.title
-    expect(page).to have_content badge.name
-    expect(page).to have_selector '.badges'
+    badges.each do |badge|
+      expect(page).to have_content badge.question.title
+      expect(page).to have_content badge.name
+      expect(page).to have_css 'img'
+    end
+  end
+
+  scenario 'Unauthenticated user tries to browse badges' do
+    visit questions_path
+    
+    expect(page).to_not have_link 'Badges'
   end
 end

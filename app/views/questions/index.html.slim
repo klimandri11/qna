@@ -1,5 +1,6 @@
 p= link_to 'Ask question', new_question_path
-p= link_to 'Badges', badges_path
+- if user_signed_in?
+  p= link_to 'Badges', badges_path
 
 table
   - @questions.each do |question|

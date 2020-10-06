@@ -7,6 +7,7 @@ feature 'User can add badge', %q{
 } do
 
   given(:user) { create(:user) }
+  given(:user_2) { create(:user) }
 
   scenario 'User adds badge when asks question', js: true do
     sign_in(user)
@@ -18,7 +19,23 @@ feature 'User can add badge', %q{
     attach_file 'Image', "#{Rails.root}/spec/rails_helper.rb"
 
     click_on 'Ask'
+    click_on 'Logout'
 
-    expect(user.questions.last.badge).to be_a(Badge)
+    sign_in(user_2)
+    click_on 'Show'
+    fill_in 'Body', with: 'text'
+    click_on 'Answer'
+    click_on 'Logout'
+
+    sign_in(user)
+    click_on 'Show'
+    click_on 'Best'
+    click_on 'Logout'
+
+    sign_in(user_2)
+    visit badges_path
+
+    expect(page).to have_content 'My badge'
+    expect(page).to have_css 'img'
   end
 end
