@@ -4,6 +4,7 @@ RSpec.describe Question, type: :model do
   it { should belong_to(:user) }
   it { should have_many(:answers).dependent(:destroy) }
   it { should have_many(:links).dependent(:destroy) }
+  it { should have_many(:votes).dependent(:destroy) }
   it { should have_one(:badge).dependent(:destroy) }
 
   it { should accept_nested_attributes_for :links }
@@ -15,4 +16,6 @@ RSpec.describe Question, type: :model do
   it 'have many attached file' do
     expect(Question.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
+
+  it_behaves_like 'votable'
 end

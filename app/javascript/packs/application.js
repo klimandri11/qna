@@ -12,6 +12,7 @@ require("jquery")
 require("@nathanvda/cocoon")
 require("channels/answers")
 require("channels/questions")
+require("channels/votes")
 
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)

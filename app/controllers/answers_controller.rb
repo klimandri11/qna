@@ -1,7 +1,9 @@
-class AnswersController < ApplicationController
+class AnswersController < ApplicationController  
   before_action :authenticate_user!
   before_action :find_question, only: %i[create]
   before_action :find_answer, only: %i[destroy update choose_best]
+
+  include Voted
 
   def create
     @answer = @question.answers.create(answer_params.merge(user: current_user))

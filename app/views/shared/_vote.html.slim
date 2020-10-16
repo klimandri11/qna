@@ -1,0 +1,18 @@
+div id="vote-#{resource.class.name.downcase}-#{resource.id}"
+  - if user_signed_in? && !current_user&.author_of?(resource)
+    p class='difference'
+      =  "difference: #{resource.sum_votes}"
+    p class=(resource.votes.where(user: current_user).exists? ? 'vote_for_against hidden' : 'vote_for_against')
+      = link_to 'Up', polymorphic_path(resource, action: :vote_for),
+            method: :post,
+            remote: true,
+            data: { type: :json }
+      = link_to 'Down', polymorphic_path(resource, action: :vote_against),
+            method: :post,
+            remote: true,
+            data: { type: :json }
+    p class=(resource.votes.where(user: current_user).exists? ? 'vote_unvote' : 'vote_unvote hidden')
+      = link_to 'Unvote', polymorphic_path(resource, action: :unvote),
+            method: :delete,
+            remote: true,
+            data: { type: :json }

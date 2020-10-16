@@ -4,6 +4,9 @@
 .question
   = render @question
 
+.votes
+  = render 'shared/vote', resource: @question
+
 .question-errors
   = render 'shared/errors', resource: @question
 

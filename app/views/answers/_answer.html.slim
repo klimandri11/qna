@@ -18,6 +18,9 @@ div id="answer-#{answer.id}"
             - if current_user&.author_of?(answer)
               p= link_to 'Delete link', link, method: 'delete', remote: true
 
+  .votes
+    = render 'shared/vote', resource: answer
+
   - if current_user&.author_of?(answer)
     - if answer.files.attached?
       - answer.files.each do |file|
